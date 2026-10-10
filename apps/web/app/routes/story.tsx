@@ -17,6 +17,8 @@ import { PillTabs } from "../components/ui/Tabs";
 import { Select } from "../components/ui/Controls";
 import { IconArrowLeft, IconChevronRight, IconClock, IconDoc, IconUsers } from "../components/icons";
 import { PhoneBar } from "../components/shell/PhoneBar";
+import { ReaderToolbar } from "../features/item/ReaderTools";
+import { siteUrl } from "../lib/seo";
 import { inNav } from "../components/shell/nav";
 import type { Screen } from "../components/shell/screens";
 
@@ -493,6 +495,28 @@ export default function StoryPage() {
           </RailCard>
         </aside>
       </div>
+      <ReaderToolbar
+        item={{
+          id: `story:${story.publicId}`,
+          title: story.title,
+          summary: story.digest ?? story.summary ?? null,
+          source: story.timeline[0]?.source.name ?? "",
+          publishedAt: story.latestAt ?? story.firstReportAt ?? "",
+          score: 0,
+          selected: false,
+        }}
+        originalLabel="报道"
+        onShare={async () => {
+          const url = `${siteUrl()}/story/${story.publicId}`;
+          try {
+            if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+              await navigator.share({ title: story.title, url });
+            } else {
+              await navigator.clipboard.writeText(`${story.title}\n${url}`);
+            }
+          } catch { /* dismissed */ }
+        }}
+      />
     </div>
   );
 }
