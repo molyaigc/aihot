@@ -13,6 +13,7 @@ import { Sparkline } from "../features/hot/Sparkline";
 import { Faces } from "../features/hot/Faces";
 import { Delta } from "../features/hot/Delta";
 import { PhoneBar } from "../components/shell/PhoneBar";
+import { StarButton } from "../features/feed/parts";
 import { inNav } from "../components/shell/nav";
 import type { Screen } from "../components/shell/screens";
 
@@ -104,6 +105,20 @@ function HeatPanel({ e }: { e: HotEntryView }) {
   );
 }
 
+
+/** Convert a hot entry to a Starrable for the收藏 button. */
+function toStarrable(e: HotEntryView) {
+  return {
+    id: `story:${e.story.publicId}`,
+    title: e.story.title,
+    summary: e.summary,
+    source: e.sourceNames[0] ?? "",
+    publishedAt: null as unknown as string,
+    score: e.heat,
+    selected: false,
+  };
+}
+
 /** No. 1: the event people are talking about most, with its picture, digest, latest turn and day of heat. */
 function Lead({ e }: { e: HotEntryView }) {
   const panel = !e.cover && e.spark.filter((v) => v !== null).length >= 3;
@@ -113,6 +128,7 @@ function Lead({ e }: { e: HotEntryView }) {
         <span className={`mono text-[12px] font-bold tracking-[0.16em] ${rankColor(e.rank)}`}>NO.{pad(e.rank)}</span>
         <Badges e={e} />
         <Delta trend={e.trend} pct={e.trendPct} className="ml-auto" />
+        <StarButton item={toStarrable(e)} className="size-[26px] shrink-0" />
       </div>
       <div className={`mt-4 grid gap-5 ${e.cover || panel ? "xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] xl:gap-7" : ""}`}>
         <div className="min-w-0">
@@ -165,6 +181,7 @@ function Runner({ e }: { e: HotEntryView }) {
         <span className={`mono text-[12px] font-bold tracking-[0.16em] ${rankColor(e.rank)}`}>NO.{pad(e.rank)}</span>
         <Badges e={e} />
         <Delta trend={e.trend} pct={e.trendPct} className="ml-auto" />
+        <StarButton item={toStarrable(e)} className="size-[26px] shrink-0" />
       </div>
       <h2 className="mt-2.5 line-clamp-2 text-[16px] font-[650] leading-[1.5] text-ink">
         <StoryLink e={e} className="group-hover:text-accent" />
@@ -195,13 +212,16 @@ function Row({ e }: { e: HotEntryView }) {
         {pad(e.rank)}
       </span>
       <div className="min-w-0">
-        <h3 className="text-[15px] font-[650] leading-[1.55] text-ink">
-          <StoryLink e={e} className="group-hover:text-accent" />
-          {e.badges.length > 0 && (
-            <span className="ml-2 inline-flex translate-y-[-2px] gap-1 align-middle">
-              <Badges e={e} />
-            </span>
-          )}
+        <h3 className="flex items-start gap-2 text-[15px] font-[650] leading-[1.55] text-ink">
+          <span className="min-w-0 flex-1">
+            <StoryLink e={e} className="group-hover:text-accent" />
+            {e.badges.length > 0 && (
+              <span className="ml-2 inline-flex translate-y-[-2px] gap-1 align-middle">
+                <Badges e={e} />
+              </span>
+            )}
+          </span>
+          <StarButton item={toStarrable(e)} className="size-[24px] shrink-0" />
         </h3>
         {e.summary && <p className="mt-0.5 line-clamp-2 text-[13px] leading-[1.65] text-ink-4 lg:line-clamp-1">{e.summary}</p>}
         <div className="mt-2 flex items-center gap-2.5 lg:hidden">
