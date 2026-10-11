@@ -11,58 +11,67 @@
  * feedLabel 是分类 RSS 标题里的名字（不写就用 label）。公开接口、RSS 和 MCP 里要把一类并进另一类发布，写在站点设置里（site/site.ts 的 PUBLIC_CATEGORIES）。
  */
 export const CATEGORIES = [
-  { key: "ai-models", label: "模型", feedLabel: "AI 模型", section: "模型发布/更新", guide: "模型本身的发布、版本、权重开放、能力或价格变化，以及既有榜单上的模型成绩。公布一次跑分不是发布新基准，也不是教程。" },
-  { key: "ai-products", label: "产品", feedLabel: "AI 产品", section: "产品发布/更新", guide: "可使用的 AI 产品、功能、应用、工具、API、平台和工程组件的发布更新。模型厂商发布的推理框架、算子库、硬件适配组件仍是产品，不能因为厂商名归成模型。" },
-  { key: "industry", label: "行业", feedLabel: "行业动态", section: "行业动态", guide: "已发生的公司经营、融资并购、人事、合作、诉讼、政策、真实安全事故及调查进展。新闻由当事人发帖、带有态度，也不因此变成观点。" },
-  { key: "paper", label: "论文", feedLabel: "论文", section: "论文研究", guide: "以新研究方法、实验设计与发现为核心的论文、技术报告、新基准或研究数据集。系统性红队实验属于研究；既有榜单成绩归模型，真实事故的新闻调查归行业。" },
-  { key: "tip", label: "教程", section: "技巧与观点", guide: "读者可以照着使用的方法、提示词、工具用法、工程实践复盘与技术讲解。重点是可复用的做法；单纯发布工具归产品，只有态度和预测而无做法归观点。", commentary: true },
-  { key: "opinion", label: "观点", section: "技巧与观点", guide: "重点是作者的解释、判断、主张、预测、评论或访谈观点。讨论市场不自动归行业，作者是名人不自动归观点。", commentary: true },
+  { key: "ai", label: "AI", feedLabel: "AI 技术与产品", section: "AI 技术与产品", guide: "AI 模型发布更新、AI 产品/工具/API 发布、AI 工程实践与教程、AI 行业动态（融资并购人事政策）。重点是能用、能学、能判断趋势；纯营销 PR 不是热点。" },
+  { key: "iot", label: "智能硬件", feedLabel: "智能硬件与物联网", section: "智能硬件与物联网", guide: "开源硬件项目（Arduino/树莓派/ESP32）、智能家居与可穿戴新品、AI 端侧设备、硬件创业与众筹动态。可复用的方案、有需求验证的项目优先。" },
+  { key: "ecommerce", label: "跨境电商", feedLabel: "跨境电商与选品", section: "跨境电商与选品", guide: "平台规则变化（亚马逊/TikTok Shop/Shopee 等）、选品趋势与爆品案例、物流关税政策、独立站与 DTC 打法。能指导选品和运营动作的优先；纯招商广告不是热点。" },
+  { key: "global", label: "出海", feedLabel: "出海与全球化", section: "出海与全球化", guide: "中国企业出海动态、海外市场准入政策变化、跨境支付与物流、本地化运营案例。能指导出海决策的优先；纯 PR 稿不是热点。" },
+  { key: "vc", label: "创投", feedLabel: "创投风向", section: "创投风向", guide: "初创公司融资、并购、IPO、VC 机构动向、独角兽动态。有金额、有轮次、有赛道判断的优先；纯 PR 稿不是热点。" },
+  { key: "crypto", label: "币圈", feedLabel: "币圈", section: "币圈", guide: "加密市场行情异动、监管政策、ETF 与机构动向、公链/DeFi 重要进展、安全事件。政策与机构动向优先；纯喊单、纯价格预测不是热点。" },
+  { key: "policy", label: "政策监管", feedLabel: "政策监管", section: "政策监管", guide: "AI 监管、数据合规、平台反垄断、贸易关税等影响产品与业务的政策法规。有实施细则、有影响分析的优先；纯政策转载无解读的不是热点。" },
 ] as const satisfies ReadonlyArray<{ key: string; label: string; feedLabel?: string; section: string; guide: string; commentary?: true }>;
 
 /**
- * 这个行业最受关注的一类发布（AI 行业是新模型）：日报报头的“N 个新模型”、改分类后修订已出的报告都按它数。
- * category 是类别，tag 是标签，两者都对上才算；unit 接在数字后面。
- * 没有这样一类的行业设成 null，报头就不显示这个数。
+ * 本站没有单一"发布计数"（不像 AI 站数新模型），设为 null，日报报头不显示该数字。
  */
-export const RELEASE: { category: string; tag: string; unit: string } | null = { category: "ai-models", tag: "模型发布", unit: "个新模型" };
+export const RELEASE: { category: string; tag: string; unit: string } | null = null;
 
 /** 周报月报的总述可以直接写、不必在报道里找到出处的行业通用词（小写）。站名会自动算进去。 */
-export const PLAIN_TERMS: readonly string[] = ["ai", "api", "llm", "gpu", "agi", "ceo", "ipo"];
+export const PLAIN_TERMS: readonly string[] = ["ai", "api", "llm", "gpu", "ceo", "ipo", "etf", "defi", "tiktok", "rss"];
 
 /**
- * 内容理解一步给每篇资料判的“内容类型”（写在 prompts/content-understanding.md 里，改了类型要同步改那份提示词）。
+ * 内容理解一步给每篇资料判的"内容类型"（写在 prompts/content-understanding.md 里，改了类型要同步改那份提示词）。
  * 评分提示词（prompts/selection-score.md）按类型给五个维度不同的权重。
  */
 export const ITEM_TYPES = ["model_release", "product_launch", "tool_or_prompt", "research_paper", "industry_event", "opinion_analysis", "tutorial_explainer"] as const;
 
 // ── 标签词表 ────────────────────────────────────────────────────────────────────────────
 
-/** 每篇资料的第一个标签必须是这些“分类标签”之一。 */
+/** 每篇资料的第一个标签必须是这些"分类标签"之一。 */
 export const CATEGORY_TAGS = [
-  "产品更新", "模型发布", "论文/研究", "开源/仓库", "教程/实践", "现象/趋势", "大佬观点", "评测/基准", "安全/对齐", "行业动态", "政策/监管",
-  "非AI/通用工具", "其他",
+  "AI 模型发布", "AI 产品更新", "AI 行业动态",
+  "开源硬件", "智能硬件新品", "AI 端侧",
+  "选品趋势", "爆品案例", "物流关税", "独立站", "平台规则",
+  "出海案例", "海外政策", "跨境支付",
+  "融资并购", "IPO", "VC 动向",
+  "监管政策", "机构动向", "安全事件", "市场异动",
+  "数据合规", "反垄断", "贸易政策",
+  "教程/实践", "现象/趋势", "大佬观点", "其他",
 ] as const;
 
 /** 可选的主题标签。 */
 export const TOPIC_TAGS = [
-  "Agent", "编码", "推理", "多模态", "语音", "视频", "图像生成", "RAG", "端侧", "数据/训练", "搜索", "部署/工程", "开源生态", "具身智能", "MCP/工具调用",
+  "Agent", "大模型", "AI 应用",
+  "Arduino", "树莓派", "ESP32", "智能家居", "众筹", "可穿戴",
+  "亚马逊", "TikTok Shop", "Shopee", "独立站", "选品",
+  "出海", "本地化", "跨境支付",
+  "融资", "独角兽", "IPO",
+  "ETF", "DeFi", "Binance", "Coinbase",
+  "数据合规", "AI 监管",
 ] as const;
 
 /** 可选的实体标签（公司、机构、平台）。 */
-export const ENTITY_TAGS = ["OpenAI", "Anthropic", "DeepSeek", "DeepMind", "Google", "Meta", "Microsoft", "xAI", "Hugging Face", "GitHub", "arXiv"] as const;
+export const ENTITY_TAGS = ["OpenAI", "Anthropic", "DeepSeek", "Google", "Meta", "Microsoft", "xAI", "字节跳动", "TikTok", "亚马逊", "Shopee", "英伟达", "Coinbase", "Binance"] as const;
 
 /** 模型常写的近义词，统一成词表里的写法。 */
 export const TAG_SYNONYMS: Readonly<Record<string, string>> = {
-  "教程/玩法": "教程/实践", "技巧/最佳实践": "教程/实践", "合作/生态": "行业动态", "融资/收购": "行业动态", "公司动态": "行业动态",
-  合作: "行业动态", 生态: "行业动态", 融资: "行业动态", 收购: "行业动态", 投资: "行业动态", 并购: "行业动态",
-  政策: "政策/监管", 监管: "政策/监管", 法规: "政策/监管", 安全: "安全/对齐", 对齐: "安全/对齐",
-  论文: "论文/研究", 研究: "论文/研究", paper: "论文/研究", papers: "论文/研究",
-  "open-source": "开源/仓库", 开源: "开源/仓库", 仓库: "开源/仓库", repo: "开源/仓库",
-  教程: "教程/实践", 玩法: "教程/实践", 指南: "教程/实践", 技巧: "教程/实践", 最佳实践: "教程/实践", 实践: "教程/实践",
-  产品: "产品更新", 更新: "产品更新", 发布: "模型发布", 模型: "模型发布", 趋势: "现象/趋势", 现象: "现象/趋势", 观点: "大佬观点",
-  视频生成: "视频", 非ai: "非AI/通用工具", "non-ai": "非AI/通用工具", 通用工具: "非AI/通用工具", 工程工具: "非AI/通用工具",
-  安全扫描: "非AI/通用工具", devops: "非AI/通用工具", 行业: "行业动态", 动态: "行业动态",
-};
+  "模型发布": "AI 模型发布", "新模型": "AI 模型发布", 发布: "AI 产品更新", 产品: "AI 产品更新", 更新: "AI 产品更新",
+  "教程": "教程/实践", 玩法: "教程/实践", 指南: "教程/实践", 技巧: "教程/实践", 最佳实践: "教程/实践", 实践: "教程/实践",
+  "趋势": "现象/趋势", 现象: "现象/趋势", 观点: "大佬观点",
+  "政策": "监管政策", 监管: "监管政策", 法规: "监管政策",
+  "融资": "融资并购", 收购: "融资并购", 投资: "融资并购", 并购: "融资并购", 合作: "AI 行业动态",
+  "开源": "开源硬件", 仓库: "开源硬件", repo: "开源硬件",
+  "爆品": "爆品案例", 选品: "选品趋势",
+} as const;
 
 // ── 公司与主体 ──────────────────────────────────────────────────────────────────────────
 
