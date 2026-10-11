@@ -18,6 +18,7 @@ export const CATEGORIES = [
   { key: "vc", label: "创投", feedLabel: "创投风向", section: "创投风向", guide: "初创公司融资、并购、IPO、VC 机构动向、独角兽动态。有金额、有轮次、有赛道判断的优先；纯 PR 稿不是热点。" },
   { key: "crypto", label: "币圈", feedLabel: "币圈", section: "币圈", guide: "加密市场行情异动、监管政策、ETF 与机构动向、公链/DeFi 重要进展、安全事件。政策与机构动向优先；纯喊单、纯价格预测不是热点。" },
   { key: "policy", label: "政策监管", feedLabel: "政策监管", section: "政策监管", guide: "AI 监管、数据合规、平台反垄断、贸易关税等影响产品与业务的政策法规。有实施细则、有影响分析的优先；纯政策转载无解读的不是热点。" },
+  { key: "opensource", label: "开源项目", feedLabel: "开源项目", section: "开源项目", guide: "GitHub 高星开源项目的发布、更新与趋势。重点收录有产品化潜力、解决实际痛点、或代表技术方向的项目；纯个人玩具项目、长期不维护的归档项目不收。" },
 ] as const satisfies ReadonlyArray<{ key: string; label: string; feedLabel?: string; section: string; guide: string; commentary?: true }>;
 
 /**
