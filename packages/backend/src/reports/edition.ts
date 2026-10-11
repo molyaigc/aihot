@@ -22,7 +22,8 @@ const DEFAULT_SECTION = SECTION_OF.industry ?? SECTION_ORDER.at(-1)!;
 export const sectionOf = (category: string | null) => SECTION_OF[category ?? ""] ?? DEFAULT_SECTION;
 
 /** A daily's size: the entries readers get in full, and the one-line flashes after them. */
-export const MAIN_ENTRIES = 12;
+export const MAIN_ENTRIES = 35;
+export const SECTION_ENTRIES = 5;
 export const FLASH_ENTRIES = 10;
 /** No source fills a daily: at most this many main entries lead with the same source. */
 const PER_SOURCE = 2;
