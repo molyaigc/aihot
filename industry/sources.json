@@ -1,370 +1,376 @@
 {
-  "$comment": "示范信源：首次启动时导入（scripts/seed.ts），已存在的不会被覆盖。之后在后台“信源”里新建、修改和暂停。字段说明见 docs/customize.md。",
+  "$comment": "第一期信源：RSS 为主（稳定免费）。web_list / YouTube / 今日头条 / X / 公众号见《README-应用说明.md》第二批清单，在后台试抓添加。二期再加 X（SocialData key）和公众号（极致了 key）。",
   "sources": [
     {
-      "id": "rss-openai-news",
-      "name": "OpenAI News",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://openai.com/news/rss.xml",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://openai.com/news/rss.xml"
       },
-      "tier": "T1",
+      "id": "rss-openai-news",
+      "interval_minutes": 180,
+      "kind": "rss",
+      "name": "OpenAI News",
       "owner_entity_id": "openai",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方"
-      ],
       "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-google-deepmind",
-      "name": "Google DeepMind",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://deepmind.google/blog/rss.xml",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": "google",
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-google-research",
-      "name": "Google Research",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://research.google/blog/rss/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": "google",
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "syndicate_fulltext": false,
       "tags": [
         "官方",
-        "研究"
+        "AI"
       ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
+      "tier": "T1"
     },
     {
-      "id": "rss-hugging-face",
+      "config": {
+        "feedUrl": "https://deepmind.google/blog/rss.xml"
+      },
+      "id": "rss-deepmind",
+      "interval_minutes": 180,
+      "kind": "rss",
+      "name": "Google DeepMind Blog",
+      "owner_entity_id": "deepmind",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "官方",
+        "AI"
+      ],
+      "tier": "T1"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.anthropic.com/news/rss.xml"
+      },
+      "id": "rss-anthropic-news",
+      "interval_minutes": 180,
+      "kind": "rss",
+      "name": "Anthropic News",
+      "owner_entity_id": "anthropic",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "官方",
+        "AI"
+      ],
+      "tier": "T1"
+    },
+    {
+      "config": {
+        "feedUrl": "https://blog.google/rss/"
+      },
+      "id": "rss-google-blog",
+      "interval_minutes": 120,
+      "kind": "rss",
+      "name": "Google Blog",
+      "owner_entity_id": "google",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "官方",
+        "AI"
+      ],
+      "tier": "T1_5"
+    },
+    {
+      "config": {
+        "feedUrl": "https://huggingface.co/blog/feed.xml"
+      },
+      "id": "rss-huggingface",
+      "interval_minutes": 120,
+      "kind": "rss",
       "name": "Hugging Face Blog",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://huggingface.co/blog/feed.xml",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": "hugging-face",
+      "owner_entity_id": "huggingface",
       "participation_mode": "editorial",
-      "interval_minutes": 120,
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
       "tags": [
         "官方",
+        "AI",
         "开源"
       ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
+      "tier": "T1_5"
     },
     {
-      "id": "rss-microsoft-research",
-      "name": "Microsoft Research",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://www.microsoft.com/en-us/research/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://www.jiqizhixin.com/rss"
       },
-      "tier": "T1",
-      "owner_entity_id": "microsoft",
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方",
-        "研究"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-nvidia-blog",
-      "name": "NVIDIA Blog",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://blogs.nvidia.com/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": "nvidia",
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-aws-ml",
-      "name": "AWS Machine Learning Blog",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://aws.amazon.com/blogs/machine-learning/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方",
-        "教程"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-github-ai",
-      "name": "GitHub Blog · AI & ML",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://github.blog/ai-and-ml/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-mistral",
-      "name": "Mistral AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://mistral.ai/news/rss",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 120,
-      "tags": [
-        "官方"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-bair",
-      "name": "Berkeley AI Research",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://bair.berkeley.edu/blog/feed.xml",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T1",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 180,
-      "tags": [
-        "研究"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-the-verge-ai",
-      "name": "The Verge · AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
+      "id": "rss-jiqizhixin",
       "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
+      "kind": "rss",
+      "name": "机器之心",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "AI"
+      ],
+      "tier": "T2"
     },
     {
+      "config": {
+        "feedUrl": "https://www.qbitai.com/rss"
+      },
+      "id": "rss-qbitai",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "量子位",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "AI"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://techcrunch.com/category/artificial-intelligence/feed/"
+      },
       "id": "rss-techcrunch-ai",
-      "name": "TechCrunch · AI",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://techcrunch.com/category/artificial-intelligence/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
       "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
+      "kind": "rss",
+      "name": "TechCrunch AI",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "AI"
+      ],
+      "tier": "T2"
     },
     {
-      "id": "rss-ars-technica-ai",
-      "name": "Ars Technica · AI",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://arstechnica.com/ai/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "http://www.ftchinese.com/rss/news"
       },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
+      "id": "rss-ftchinese",
       "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
+      "kind": "rss",
+      "name": "FT中文网",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "政策"
+      ],
+      "tier": "T2"
     },
     {
-      "id": "rss-mit-tech-review-ai",
-      "name": "MIT Technology Review · AI",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://36kr.com/feed"
       },
-      "tier": "T2",
-      "owner_entity_id": null,
+      "id": "rss-36kr",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "36氪",
       "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "创投",
+        "跨境"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.huxiu.com/rss/0.xml"
+      },
+      "id": "rss-huxiu",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "虎嗅",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "创投"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/"
+      },
+      "id": "rss-coindesk",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "CoinDesk",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "币圈"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://cointelegraph.com/rss"
+      },
+      "id": "rss-cointelegraph",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "Cointelegraph",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "币圈"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.panewslab.com/rss"
+      },
+      "id": "rss-panews",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "PANews",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "币圈"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://hackaday.com/blog/feed/"
+      },
+      "id": "rss-hackaday",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "Hackaday",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "智能硬件",
+        "开源硬件"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.cnx-software.com/feed/"
+      },
+      "id": "rss-cnxsoft",
+      "interval_minutes": 60,
+      "kind": "rss",
+      "name": "CNX Software",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "智能硬件",
+        "开源硬件"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://www.raspberrypi.com/news/feed/"
+      },
+      "id": "rss-rpi-news",
       "interval_minutes": 120,
-      "tags": [
-        "媒体"
-      ],
+      "kind": "rss",
+      "name": "Raspberry Pi News",
+      "owner_entity_id": "raspberrypi",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "官方",
+        "智能硬件"
+      ],
+      "tier": "T1_5"
     },
     {
-      "id": "rss-the-decoder",
-      "name": "The Decoder",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://the-decoder.com/feed/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://blog.arduino.cc/feed/"
       },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
-      "interval_minutes": 60,
-      "tags": [
-        "媒体"
-      ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
-    },
-    {
-      "id": "rss-simon-willison",
-      "name": "Simon Willison",
-      "kind": "rss",
-      "config": {
-        "feedUrl": "https://simonwillison.net/atom/everything/",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
-      },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
+      "id": "rss-arduino",
       "interval_minutes": 120,
-      "tags": [
-        "个人"
-      ],
+      "kind": "rss",
+      "name": "Arduino Blog",
+      "owner_entity_id": "arduino",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "官方",
+        "智能硬件"
+      ],
+      "tier": "T1_5"
     },
     {
-      "id": "rss-import-ai",
-      "name": "Import AI",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://importai.substack.com/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://www.ruanyifeng.com/blog/feed.xml"
       },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
+      "id": "rss-ruanyifeng",
       "interval_minutes": 180,
+      "kind": "rss",
+      "name": "阮一峰科技周刊",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
       "tags": [
         "个人",
-        "周刊"
+        "教程",
+        "工具"
       ],
-      "site_fulltext": false,
-      "syndicate_fulltext": false
+      "tier": "T2"
     },
     {
-      "id": "rss-latent-space",
-      "name": "Latent Space",
-      "kind": "rss",
       "config": {
-        "feedUrl": "https://www.latent.space/feed",
-        "_aihot": {
-          "initialBackfillLimit": 8
-        }
+        "feedUrl": "https://hellogithub.com/rss"
       },
-      "tier": "T2",
-      "owner_entity_id": null,
-      "participation_mode": "editorial",
+      "id": "rss-hellogithub",
       "interval_minutes": 180,
-      "tags": [
-        "个人"
-      ],
+      "kind": "rss",
+      "name": "HelloGitHub",
+      "participation_mode": "editorial",
       "site_fulltext": false,
-      "syndicate_fulltext": false
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "开源",
+        "工具"
+      ],
+      "tier": "T2"
+    },
+    {
+      "config": {
+        "feedUrl": "https://sspai.com/feed"
+      },
+      "id": "rss-sspai",
+      "interval_minutes": 120,
+      "kind": "rss",
+      "name": "少数派",
+      "participation_mode": "editorial",
+      "site_fulltext": false,
+      "syndicate_fulltext": false,
+      "tags": [
+        "媒体",
+        "教程",
+        "工具"
+      ],
+      "tier": "T2"
     }
   ]
 }
