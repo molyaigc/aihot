@@ -5,7 +5,7 @@ import { Wordmark } from "@aihot/site/brand/Logo.tsx";
 import { useChangelogSeen } from "../../lib/local-state";
 import { sidebar, sidebarIsActive, type NavItem } from "./nav";
 import { ThemeSwitch } from "./ThemeSwitch";
-import { IconGithub } from "../icons";
+import { IconChevronDown, IconGithub } from "../icons";
 
 /** True while the changelog has an entry newer than the one this reader last opened. */
 export function useChangelogDot(latestVersion: string | null): boolean {
@@ -38,21 +38,82 @@ function SideLink({ item, dot }: { item: NavItem; dot: boolean }) {
   );
 }
 
+/** Collapsible parent entry: toggles instead of navigating; children render indented when expanded. */
+function SideParent({ item, dot, expanded, onToggle }: { item: NavItem; dot: boolean; expanded: boolean; onToggle: () => void }) {
+  const { pathname } = useLocation();
+  const isActive = sidebarIsActive(item, pathname);
+  const Icon = item.icon;
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className={`flex h-10 w-full items-center gap-2.5 rounded-control px-2.5 text-[14px] transition-colors duration-150 ${
+          isActive ? "font-semibold text-ink" : "font-medium text-ink-3 hover:bg-bg-sunk hover:text-ink"
+        }`}
+      >
+        <span className={`flex w-[22px] shrink-0 justify-center ${isActive ? "text-accent" : ""}`}>
+          <Icon size={17} />
+        </span>
+        <span className="min-w-0 flex-1 truncate text-left">{item.label}</span>
+        <IconChevronDown size={14} className={`shrink-0 text-ink-4 transition-transform duration-150 ${expanded ? "" : "-rotate-90"}`} />
+      </button>
+      {expanded && (
+        <div className="ml-4 flex flex-col gap-1 border-l border-line pl-2">
+          {item.children!.map((child) => (
+            <SideLink key={child.to} item={child} dot={dot} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Sidebar({ changelogVersion }: { changelogVersion: string | null }) {
   const dot = useChangelogDot(changelogVersion);
+  const { pathname } = useLocation();
+  const sections = sidebar();
+  // Expanded by default; auto-expand the section containing the current page.
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    const s = new Set<string>();
+    for (const sec of sections) for (const item of sec.items) if (item.children?.length) s.add(item.label);
+    return s;
+  });
+  const toggle = (label: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(label)) next.delete(label);
+      else next.add(label);
+      return next;
+    });
+  // Keep the active parent expanded when navigating.
+  useEffect(() => {
+    for (const sec of sections) {
+      for (const item of sec.items) {
+        if (item.children?.length && sidebarIsActive(item, pathname)) {
+          setExpanded((prev) => (prev.has(item.label) ? prev : new Set(prev).add(item.label)));
+        }
+      }
+    }
+  }, [pathname]);
   return (
     <aside className="sticky top-0 hidden h-dvh w-[180px] shrink-0 flex-col border-r border-line bg-sidebar px-3 pb-3.5 pt-6 lg:flex">
       <Link to="/" className="mb-4 flex h-[50px] items-center px-1 text-ink" aria-label={`${SITE.name} 首页`}>
         <Wordmark size={26} />
       </Link>
       <nav className="scrollbar-thin -mx-1 flex-1 overflow-y-auto px-1" aria-label="主导航">
-        {sidebar().map((section) => (
-          <div key={section.title}>
-            <div className="px-2.5 pb-1 pt-3.5 text-[11px] text-ink-4">{section.title}</div>
+        {sections.map((section) => (
+          <div key={section.title || "top"}>
+            {section.title && <div className="px-2.5 pb-1 pt-3.5 text-[11px] text-ink-4">{section.title}</div>}
             <div className="flex flex-col gap-1">
-              {section.items.map((item) => (
-                <SideLink key={item.to} item={item} dot={dot} />
-              ))}
+              {section.items.map((item) =>
+                item.children?.length ? (
+                  <SideParent key={item.label} item={item} dot={dot} expanded={expanded.has(item.label)} onToggle={() => toggle(item.label)} />
+                ) : (
+                  <SideLink key={item.to} item={item} dot={dot} />
+                ),
+              )}
             </div>
           </div>
         ))}
